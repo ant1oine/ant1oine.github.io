@@ -1,0 +1,30 @@
+body {
+	background-image: url('deep.gif');
+	background-size: cover;
+}
+
+
+@keyframes x{
+	from {background-color: red;}
+	to {background-color: black;}
+}
+
+#main {
+	margin: 15em auto;
+	text-align: center;
+	font-family: monospace;
+}
+
+#b1 {
+	animation: x 1s infinite;
+	border-radius: 50%;
+}
+
+a{
+	text-decoration: none;
+	color: white;
+	font-family: monospace,sans-serif;
+}
+
+
+
