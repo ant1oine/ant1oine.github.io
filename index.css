@@ -10,7 +10,7 @@ body {
 }
 
 #main {
-	margin: 15em auto;
+	margin: 30em auto;
 	text-align: center;
 	font-family: monospace;
 }
@@ -18,7 +18,6 @@ body {
 #b1 {
 	animation: x 1s infinite;
 	border-radius: 50%;
-	text-align: center;
 }
 
 a{
