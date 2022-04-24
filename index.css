@@ -18,6 +18,7 @@ body {
 #b1 {
 	animation: x 1s infinite;
 	border-radius: 50%;
+	text-align: center;
 }
 
 a{
