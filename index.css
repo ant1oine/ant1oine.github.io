@@ -10,7 +10,7 @@ body {
 }
 
 #main {
-	margin: 30em 15em;
+	margin: 15em auto;
 	text-align: center;
 	font-family: monospace;
 }
