@@ -1,27 +1,15 @@
-@keyframes x {
-    from{ font-size: 800px; };
-    to { font-size: 250px; };
-}
-
-
 #main {
   	left: 0;
     line-height: 200px;
     margin-top: -100px;
     position: absolute;
     text-align: center;
-    top: 40%;
+    top: 50%;
     width: 100%;
 }
 
 
 a{
 	text-decoration: none;
-	animation: x 5s reverse infinite;
-    color: gray;
+    font-size: 200px;
 }
-
-a:hover { color: red;}
-
-
-
