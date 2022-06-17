@@ -15,13 +15,8 @@ a{
 	font-size: 18px;
 }
 
-
-a:hover{
-	color: lightgray;
-}
+p { font-size: 400px; }
+p:hover { color: darkgreen;}
 
 
-button{
-	background-color: white;
-}
 

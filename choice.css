@@ -18,8 +18,8 @@ button {
 #b3 { font-size: 38px}
 #b4 { font-size: 38px}
 
-#b1:hover { font-weight: bold ; border: solid black 3px;}
-#b2:hover { font-weight: bold ; border: solid black 3px;}
+#b1:hover { border: solid black 5px;}
+#b2:hover { border: solid black 5px}
 #b3:hover { background-color: black; color: white; font-size: 38px}
 #b4:hover { background-color: #1DA1F2; color:  black; font-size: 38px}
 
