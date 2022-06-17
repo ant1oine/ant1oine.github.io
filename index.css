@@ -12,4 +12,7 @@
 a{
 	text-decoration: none;
     font-size: 200px;
+    color: darkgray;
 }
+
+a:hover{color: gray;}

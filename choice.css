@@ -8,20 +8,20 @@ div { position: absolute; padding: 1em; border: 1px solid #000 }
 #div4 { top: 50%; left: 50%; right: 0;   bottom: 0}
 
 button { 
-  position: absolute; left: 50%; top: 50%; padding: 10px; width: 140px; height: 80px;
+  position: absolute; left: 50%; top: 50%; padding: 10px; width: 240px; height: 120px;
   background-color: white; transform: translate(-50%, -50%)
 }
 
 
-#b1 { font-size: 25px}
-#b2 { font-size: 25px}
-#b3 { font-size: 38px}
-#b4 { font-size: 38px}
+#b1 { font-size: 60px}
+#b2 { font-size: 60px}
+#b3 { font-size: 60px}
+#b4 { font-size: 60px}
 
 #b1:hover { border: solid black 5px;}
-#b2:hover { border: solid black 5px}
-#b3:hover { background-color: black; color: white; font-size: 38px}
-#b4:hover { background-color: #1DA1F2; color:  black; font-size: 38px}
+#b2:hover { font-weight: bold}
+#b3:hover { background-color: lightgray;}
+#b4:hover { background-color: black; color: white}
 
 
 a { text-decoration: none; color: black}
