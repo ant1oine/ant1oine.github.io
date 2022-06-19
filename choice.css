@@ -14,11 +14,11 @@ div { position: absolute }
 #div3 { top: 40%; left: 65%; right: 15%; bottom: 40%}
 
 /* Expanding button in each space to fill entire area */
-#b1 { height: 100%; width: 100%; color: black; font-size: 3em; background-color:#1DA1F2; font-family: Helvetica Neue; border-radius: 30%;}
+#b1 { height: 100%; width: 100%; color: black; font-size: 2em; background-color:#1DA1F2; font-family: Helvetica Neue; border-radius: 30%;}
 #b1:hover {border: solid #F5FEFD 3px; font-weight: bold}
-#b2 { height: 100%; width: 100%; color: white; font-size: 3em; background-color:#000; font-family: Collegiate; border-radius: 30%}
+#b2 { height: 100%; width: 100%; color: white; font-size: 2em; background-color:#000; font-family: Collegiate; border-radius: 30%}
 #b2:hover {border: solid #F5FEFD 3px; font-weight: bold}
-#b3 { height: 100%; width: 100%; color: white; font-size: 3em; background-color:#0077b5; border-radius: 30%}
+#b3 { height: 100%; width: 100%; color: white; font-size: 2em; background-color:#0077b5; border-radius: 30%}
 #b3:hover {border: solid #F5FEFD 3px; font-weight: bold}
 
 /* Lower Part Signature */
