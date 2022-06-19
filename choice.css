@@ -1,25 +1,25 @@
 
 
 /* Covering entire page with no blank spaces */
-body { width: 100%; height: 100%; padding: 0; margin: 0; overflow: hidden; background-color: #8F9779;}
+body { width: 100%; height: 100%; padding: 0; margin: 0; overflow: hidden; background-color: #edf1fe;}
 
 /* Splitting the Page into two entities */
-#main {top:0; left:0%; right:0; bottom: 3%}
+#main {top:0%; left:0%; right:0; bottom: 3%}
 #lower { top: 97%; left:0; right:0; bottom: 0%;}
 
 /* Splitting main part into three equally sized spaces */
-div { position: absolute; border: 1px solid black }
-#div1 { top:30%; left: 25%; right: 65%; bottom: 30%}
-#div2 { top: 30%; left: 45%; right: 45%; bottom: 30%}
-#div3 { top: 30%; left: 65%; right: 25%; bottom: 30%}
+div { position: absolute }
+#div1 { top:40%; left: 25%; right: 60%; bottom: 40%}
+#div2 { top: 40%; left: 45%; right: 40%; bottom: 40%}
+#div3 { top: 40%; left: 65%; right: 20%; bottom: 40%}
 
 /* Expanding button in each space to fill entire area */
-#b1 { height: 100%; width: 100%; color: white; font-size: 5em; background-color:#29AB87}
-#b1:hover {background-color: black; border: solid white 3px}
-#b2 { height: 100%; width: 100%; color: white; font-size: 5em; background-color:#004B49}
-#b2:hover {background-color: black; border: solid white 3px}
-#b3 { height: 100%; width: 100%; color: white; font-size: 5em; background-color:#1A2421; border-bottom:}
-#b3:hover {background-color: black; border: solid white 3px}
+#b1 { height: 100%; width: 100%; color: black; font-size: 3em; background-color:#1DA1F2; font-family: Helvetica Neue; border-radius: 30%;}
+#b1:hover {border: solid #F5FEFD 3px; font-weight: bold}
+#b2 { height: 100%; width: 100%; color: white; font-size: 3em; background-color:#000; font-family: Collegiate; border-radius: 30%}
+#b2:hover {border: solid #F5FEFD 3px; font-weight: bold}
+#b3 { height: 100%; width: 100%; color: white; font-size: 3em; background-color:#0077b5; border-radius: 30%}
+#b3:hover {border: solid #F5FEFD 3px; font-weight: bold}
 
 /* Lower Part Signature */
-.cover{width:100%; font-size:1em; text-align:center; margin:0; background:black; color: white}
+.cover{width:100%; font-size:1em; text-align:center; margin:0; background:black; color: white;}
