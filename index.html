@@ -1,22 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Antoine's Page</title>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            font-size: 2em;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antoine's Portfolio</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    background-color: #1c1c1c; /* Dark background */
+  }
+
+  .sticky-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #292929; /* Dark header */
+    color: gold;
+    z-index: 1000;
+    display: flex;
+    justify-content: center; /* Centered menu items */
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  .sticky-header a {
+    color: gold;
+    text-decoration: none;
+    margin: 0 20px; /* Reduced space between menu items */
+    padding: 6px 12px;
+  }
+
+  .sticky-header a:hover {
+    background-color: #444444;
+  }
+
+  section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Gold text color */
+<!--    font-family: monospace;-->
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  #home {
+    background: #1A1A1A;
+  }
+
+  #portfolio {
+    background: #333333;
+  }
+
+  #blog {
+    background: #4D4D4D;
+  }
+
+  #contact {
+    background: #666666;
+  }
+</style>
 </head>
 <body>
-    <div>Antoine</div>
+
+<div class="sticky-header">
+  <a href="#home">Home</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#blog">Blog</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<section id="home">
+  <h1>Home</h1>
+</section>
+
+<section id="portfolio">
+  <h1>Portfolio</h1>
+  <!-- Add your portfolio items here -->
+</section>
+
+<section id="blog">
+  <h1>Blog</h1>
+  <!-- Blog entries will go here -->
+</section>
+
+<section id="contact">
+  <h1>Contact Me</h1>
+  <!-- Contact form or details -->
+</section>
+
 </body>
 </html>
