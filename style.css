@@ -1,0 +1,103 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    background-color: #1c1c1c; /* Dark background */
+  }
+  
+  .sticky-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #292929; /* Dark header */
+    color: gold;
+    z-index: 1000;
+    display: flex;
+    justify-content: center; /* Centered menu items */
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .sticky-header a {
+    color: gold;
+    text-decoration: none;
+    margin: 0 10px; /* Reduced space between menu items */
+    padding: 6px 12px;
+  }
+  
+  .sticky-header a:hover {
+    background-color: #444444;
+  }
+  
+  section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Gold text color */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  #home {
+    background: #1A1A1A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .home-content {
+    display: flex;
+    width: 80%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .text-area {
+    flex: 1;
+    padding-right: 20px; /* Adjust as needed */
+  }
+  
+  .image-area {
+    flex: 2; /* Image takes more space */
+  }
+  
+  .image-area img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px; /* Optional */
+  }
+  
+  /* Original styles for other sections */
+  #portfolio {
+    background: #333333;
+  }
+  
+  #blog {
+    background: #4D4D4D;
+  }
+  
+  #contact {
+    background: #666666;
+  }
+  
+  .image-area img { 
+    width: auto; /* maintain the aspect ratio */
+    height: 70vh; /* use vh for responsive height based on the viewport size */
+    max-height: 500px; /* you can set a max height to ensure it doesn't get too large on bigger screens */
+  }
+  
+  /* Media query for tablets */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .image-area img {
+      height: 50vh; /* adjust the size on tablets */
+    }
+  }
+  
+  /* Media query for phones */
+  @media (max-width: 767px) {
+    .image-area img {
+      height: 30vh; /* adjust the size on phones */
+    }
+  }
+  
