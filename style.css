@@ -53,10 +53,18 @@ body, html {
     justify-content: space-between;
   }
   
+ .text-area {
+  flex: 1;
+  padding-right: 20px;
+}
+
+@media (max-width: 767px) {
   .text-area {
-    flex: 1;
-    padding-right: 20px; /* Adjust as needed */
+    font-size: 14px; /* Smaller font size for small screens */
+    padding-right: 10px; /* Less padding on the right for small screens */
   }
+}
+
   
   .image-area {
     flex: 2; /* Image takes more space */
