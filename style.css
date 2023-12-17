@@ -60,9 +60,9 @@ body, html {
 
 @media (max-width: 767px) {
   .text-area {
-    font-size: 10px; /* Adjust font size for mobile */
+    font-size: 12px; /* Adjust font size for mobile */
     line-height: 1.4; /* Adjust line height for better readability */
-    padding: 12px; /* Adjust padding as necessary */
+    padding-right: 14px; /* Adjust padding as necessary */
   }
 }
 
