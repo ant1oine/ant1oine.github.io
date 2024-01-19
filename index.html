@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Graphs with Customer Segmentation</title>
+    <!-- Include Chart.js and Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <h2 class="text-center mb-4">Interactive Graphs</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Dataset Graph</h4>
+            <!-- Dropdown for dataset graph -->
+            <select id="dataSelector" class="custom-select mb-3" onchange="updateLineGraph()">
+                <option value="dataset1">Dataset 1</option>
+                <option value="dataset2">Dataset 2</option>
+            </select>
+            <!-- Canvas for Line Chart.js graph -->
+            <canvas id="lineChart" width="400" height="200"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h4>Customer Segmentation</h4>
+            <!-- Dropdown for bar chart -->
+            <select id="segmentSelector" class="custom-select mb-3" onchange="updateBarGraph()">
+                <option value="3">3 Buckets</option>
+                <option value="4">4 Buckets</option>
+                <option value="5">5 Buckets</option>
+            </select>
+            <!-- Canvas for Bar Chart.js graph -->
+            <canvas id="barChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+// Sample datasets
+var dataset1 = [12, 19, 3, 5, 2, 3];
+var dataset2 = [5, 10, 5, 2, 20, 30];
+
+// Line Chart initialization
+var lineCtx = document.getElementById('lineChart').getContext('2d');
+var lineChart = new Chart(lineCtx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Value',
+            data: dataset1,
+            backgroundColor: 'rgba(0, 123, 255, 0.2)',
+            borderColor: 'rgba(0, 123, 255, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: { scales: { y: { beginAtZero: true } } }
+});
+
+// Bar Chart initialization
+var barCtx = document.getElementById('barChart').getContext('2d');
+var barChart = new Chart(barCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Segment 1', 'Segment 2', 'Segment 3'],
+        datasets: [{
+            label: 'Customers',
+            data: [30, 50, 20],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: { scales: { y: { beginAtZero: true } } }
+});
+
+// Update Line Graph
+function updateLineGraph() {
+    var selectedData = document.getElementById('dataSelector').value;
+    lineChart.data.datasets[0].data = (selectedData == 'dataset1') ? dataset1 : dataset2;
+    lineChart.update();
+}
+
+// Update Bar Graph
+function updateBarGraph() {
+    var bucketCount = parseInt(document.getElementById('segmentSelector').value);
+    barChart.data.labels = Array.from({length: bucketCount}, (_, i) => `Segment ${i + 1}`);
+    barChart.data.datasets[0].data = Array.from({length: bucketCount}, () => Math.floor(Math.random() * 60) + 10);
+    barChart.update();
+}
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
