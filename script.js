@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         instagramValue.textContent = `$${instagramInvestment / 2}`; // Show original slider value
 
         let facebookROI = Math.min(facebookInvestment, 800); // Double the limit for ROI
-        let instagramROI = Math.min(instagramInvestment, 1600); // Double the limit for ROI
+        let instagramROI = Math.min(instagramInvestment, 1200); // Double the limit for ROI
 
         let facebookBarHeight = (facebookROI / 2000) * 300; // Adjusted for new scale
         let instagramBarHeight = (instagramROI / 2000) * 300; // Adjusted for new scale
