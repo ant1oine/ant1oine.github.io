@@ -152,7 +152,6 @@
 <body>
   <div class="widget">
   <button id="toggleMode">Switch to AI Mode</button>
-  <h2 id="scoringMode">Manual Weight Setting</h2>
   <div class="column">
     <label for="source">Lead Source:</label>
     <select id="source">
@@ -224,7 +223,7 @@
 
   document.getElementById('toggleMode').addEventListener('click', () => {
     mode = mode === 'traditional' ? 'ai' : 'traditional';
-    document.getElementById('scoringMode').textContent = mode === 'ai' ? 'Automated Weights' : 'Manual Weight Setting';
+    // document.getElementById('scoringMode').textContent = mode === 'ai' ? 'Automated Weights' : 'Manual Weight Setting';
     const toggleButton = document.getElementById('toggleMode');
     toggleButton.textContent = mode === 'ai' ? 'Switch to Traditional Mode' : 'Switch to AI Mode';
     updateSlidersVisibility();
@@ -239,7 +238,7 @@
     weightValues.forEach(value => value.style.display = mode === 'traditional' ? 'block' : 'none');
   }
 
-  function updateModeText() {
+    function updateModeText() {
     const optimizedWeights = document.querySelectorAll('.optimized-weight');
     optimizedWeights.forEach(optWeight => optWeight.style.display = mode === 'ai' ? 'block' : 'none');
   }
@@ -389,7 +388,7 @@
     }, 7000); // Match longest possible animation duration
   }
   // Create a new raindrop every 300 milliseconds
-  // setInterval(createRaindrop, 50); 
+  // setInterval(createRaindrop, 300); 
 
   updateSlidersVisibility();
   updateModeText();
