@@ -1,82 +1,398 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Lead Categorization</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        #result {
-            margin-top: 20px;
-            font-size: 24px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Scoring Widget</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9ecef;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+  }
+  .widget {
+    background: linear-gradient(to bottom, #ffffff, #f6f8fa);
+    padding: 10px 10px 0px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 550px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 15px;
+    z-index: 2;
+  }
+  .column {
+    font-family: "roboto", sans-serif;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 5px;
+  }
+  h2 {
+    font-family: "roboto", sans-serif;
+    color: #20262e;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  #score {
+    color: #333;
+    font-size: 20px;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    width: 100%;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+    margin-top: 3px;
+    color: #666;
+  }
+  select, input[type="range"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+  }
+  .weight-value {
+    font-size: 10px;
+    color: #888;
+    text-align: center;
+    margin-top: 0px;
+  }
+  .optimized-weight {
+    font-size: 10px;
+    color: #888;
+    text-align: center;
+    margin-top: 2px;
+    display: none; /* Initially hidden for Traditional mode */
+  }
+  button {
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    background-image: linear-gradient(to bottom, #007bff, #0056b3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  button:hover {
+    background-image: linear-gradient(to bottom, #0056b3, #0042a1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  .column input[type="range"] {
+    padding-left: 10px; /* Adjust as needed */
+    padding-right: 20px; /* Adjust as needed */
+    width: calc(100% - 40px); /* Adjust based on padding to maintain overall width */
+  }
+  .button-container {
+  display: flex;
+  width: 100%;
+  }
+
+  .button-container button {
+  margin: 20px 10px 0px 0px; /* Adjust based on preference */
+  }
+
+  .reset-button {
+  width: 20%; /* Moved from inline style to here */
+  color: white;
+  background-image: linear-gradient(to bottom, red, darkred);
+  }
+
+  .reset-button:hover {
+  background-image: linear-gradient(to bottom, darkred, black);
+  }
+
+  @keyframes fall {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+  }
+
+  .raindrop {
+  position: fixed;
+  top: -50px; /* Start off-screen */
+  color: #007bff; /* Example color, adjust as needed */
+  opacity: 0.8;
+  font-size: 24px;
+  animation-name: fall;
+  animation-duration: 4s; /* Adjust speed as needed */
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  }
+
+  
+  select, input[type="range"], button {
+  font-size: 16px; /* Adjust based on preference */
+  }
+
+  button:active {
+  transform: scale(0.98); /* Slightly shrink the button when clicked */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+</style>
 </head>
 <body>
-    <h2>Lead Categorization</h2>
-
-    <select id="sex">
-        <option value="">Select Sex</option>
-        <option value="man">Man</option>
-        <option value="woman">Woman</option>
+  <div class="widget">
+  <button id="toggleMode">Switch to AI Mode</button>
+  <h2 id="scoringMode">Manual Weight Setting</h2>
+  <div class="column">
+    <label for="source">Lead Source:</label>
+    <select id="source">
+      <option value="1">Instagram</option>
+      <option value="0.5">Google</option>
+      <option value="0">Facebook</option>
     </select>
-
-    <select id="age">
-        <option value="">Select Age</option>
-        <!-- Age options will be added here -->
+    <input type="range" id="weight-source" min="0" max="1" step="0.01" value="0.1667">
+    <div class="weight-value" id="display-weight-source">Weight: 0.1667</div>
+    <div class="optimized-weight" id="opt-weight-source">Optimized Weight: 0.05</div>
+    <label for="engagement">Engagement Level:</label>
+    <select id="engagement">
+      <option value="1">High</option>
+      <option value="0.5">Medium</option>
+      <option value="0">Low</option>
     </select>
+    <input type="range" id="weight-engagement" min="0" max="1" step="0.01" value="0.1667">
+    <div class="weight-value" id="display-weight-engagement">Weight: 0.1667</div>
+    <div class="optimized-weight" id="opt-weight-engagement">Optimized Weight: 0.15</div>
 
-    <select id="occupation">
-        <option value="">Select Occupation</option>
-        <option value="Clown">Clown</option>
-        <option value="Manager">Manager</option>
-        <option value="CEO">CEO</option>
+    <label for="timeOnPage">Time on Page:</label>
+    <select id="timeOnPage">
+      <option value="1">> 5 minutes</option>
+      <option value="0.5">2 - 5 minutes</option>
+      <option value="0">< 2 minutes</option>
     </select>
+    <input type="range" id="weight-timeOnPage" min="0" max="1" step="0.01" value="0.1667">
+    <div class="weight-value" id="display-weight-timeOnPage">Weight: 0.1667</div>
+    <div class="optimized-weight" id="opt-weight-timeOnPage">Optimized Weight: 0.5</div>
+  </div>
+  <div class="column">
+    <label for="actionsCompleted">Actions Completed:</label>
+    <select id="actionsCompleted">
+      <option value="1">> 3</option>
+      <option value="0.5">1 - 3</option>
+      <option value="0">0</option>
+    </select>
+    <input type="range" id="weight-actionsCompleted" min="0" max="1" step="0.01" value="0.1667">
+    <div class="weight-value" id="display-weight-actionsCompleted">Weight: 0.1667</div>
+    <div class="optimized-weight" id="opt-weight-actionsCompleted">Optimized Weight: 0.05</div>
 
-    <button onclick="generateResult()">Generate Results</button>
+    <label for="customerFeedback">Customer Feedback:</label>
+    <select id="customerFeedback">
+      <option value="1">Positive</option>
+      <option value="0.5">Neutral</option>
+      <option value="0">Negative</option>
+    </select>
+    <input type="range" id="weight-customerFeedback" min="0" max="1" step="0.01" value="0.1667">
+    <div class="weight-value" id="display-weight-customerFeedback">Weight: 0.1667</div>
+    <div class="optimized-weight" id="opt-weight-customerFeedback">Optimized Weight: 0.05</div>
 
-    <div id="result"></div>
+    <label for="salesReadiness">Sales Readiness:</label>
+    <select id="salesReadiness">
+      <option value="1">Ready</option>
+      <option value="0.5">Considering</option>
+      <option value="0">Not Ready</option>
+    </select>
+    <input type="range" id="weight-salesReadiness" min="0" max="1" step="0.01" value="0.1667">
+    <div class="weight-value" id="display-weight-salesReadiness">Weight: 0.1667</div>
+    <div class="optimized-weight" id="opt-weight-salesReadiness">Optimized Weight: 0.2</div>
+  </div>
+    <div class="button-container">
+  <button onclick="calculateScore()" style="width: 80%;">Calculate Score</button>
+  <button onclick="resetWeights()" class="reset-button">Reset</button>
+  </div>
+  <h3 id="score">Lead Score: <span id="finalScore"></span></h3>
+<script>
+  let mode = 'traditional'; // Initial mode
 
-    <script>
-        // Adding age options
-        window.onload = function() {
-            var ageSelect = document.getElementById('age');
-            for (var i = 18; i <= 80; i++) {
-                var option = document.createElement('option');
-                option.value = i;
-                option.text = i;
-                ageSelect.appendChild(option);
-            }
-        };
+  document.getElementById('toggleMode').addEventListener('click', () => {
+    mode = mode === 'traditional' ? 'ai' : 'traditional';
+    document.getElementById('scoringMode').textContent = mode === 'ai' ? 'Automated Weights' : 'Manual Weight Setting';
+    const toggleButton = document.getElementById('toggleMode');
+    toggleButton.textContent = mode === 'ai' ? 'Switch to Traditional Mode' : 'Switch to AI Mode';
+    updateSlidersVisibility();
+    updateModeText();
+    updateWeightsForMode();
+  });
 
-        function generateResult() {
-            var sex = document.getElementById('sex').value;
-            var age = document.getElementById('age').value;
-            var occupation = document.getElementById('occupation').value;
+  function updateSlidersVisibility() {
+    const sliders = document.querySelectorAll('input[type="range"]');
+    const weightValues = document.querySelectorAll('.weight-value');
+    sliders.forEach(slider => slider.style.display = mode === 'traditional' ? 'block' : 'none');
+    weightValues.forEach(value => value.style.display = mode === 'traditional' ? 'block' : 'none');
+  }
 
-            // Only proceed if all fields are selected
-            if (sex && age && occupation) {
-                var result = document.getElementById('result');
-                switch(occupation) {
-                    case 'Clown':
-                        result.innerHTML = 'COLD LEAD';
-                        break;
-                    case 'Manager':
-                        result.innerHTML = 'WARM LEAD';
-                        break;
-                    case 'CEO':
-                        result.innerHTML = 'HOT LEAD';
-                        break;
-                    default:
-                        result.innerHTML = 'No result';
-                }
-            } else {
-                alert('Please select all fields');
-            }
-        }
-    </script>
+  function updateModeText() {
+    const optimizedWeights = document.querySelectorAll('.optimized-weight');
+    optimizedWeights.forEach(optWeight => optWeight.style.display = mode === 'ai' ? 'block' : 'none');
+  }
+
+  function updateWeightsForMode() {
+  const defaultWeight = (1 / 6).toFixed(4); // Default weight for Traditional mode
+  if (mode === 'ai') {
+    // Set AI-optimized weights
+    document.getElementById('weight-source').value = '0.05';
+    document.getElementById('weight-engagement').value = '0.15';
+    document.getElementById('weight-timeOnPage').value = '0.5';
+    document.getElementById('weight-actionsCompleted').value = '0.05';
+    document.getElementById('weight-customerFeedback').value = '0.05';
+    document.getElementById('weight-salesReadiness').value = '0.2';
+  } else {
+    // Reset to default weights for Traditional mode
+    const weights = ['weight-source', 'weight-engagement', 'weight-timeOnPage', 'weight-actionsCompleted', 'weight-customerFeedback', 'weight-salesReadiness'];
+    weights.forEach(weightId => {
+      document.getElementById(weightId).value = defaultWeight;
+      document.getElementById(`display-${weightId}`).textContent = `Weight: ${defaultWeight}`;
+    });
+  }
+  // Ensure the sliders and weight displays are correctly updated
+  updateSlidersVisibility();
+  }
+
+
+  function calculateScore() {
+  let score = 0;
+  let maxScore = 0; // Initialize maximum possible score excluding Lead Source
+  const inputs = ['engagement', 'timeOnPage', 'actionsCompleted', 'customerFeedback', 'salesReadiness']; // Exclude 'source' from dynamic calculation
+
+  // Dynamically calculate score for inputs excluding Lead Source
+  inputs.forEach(input => {
+    const value = parseFloat(document.getElementById(input).value);
+    const weight = parseFloat(document.getElementById('weight-' + input).value);
+    score += value * weight; // Actual score based on selected options and their weights
+    maxScore += weight; // Adjust max possible score based on weights
+  });
+
+  // Account for Lead Source's optimal contribution
+  const leadSourceWeight = parseFloat(document.getElementById('weight-source').value);
+  score += leadSourceWeight; // Always add full weight for Lead Source as if optimal option is selected
+  maxScore += leadSourceWeight; // Include Lead Source weight in maxScore for normalization
+
+  // Normalize score to be between 0 and 1
+  let normalizedScore = maxScore > 0 ? score / maxScore : 0; // Avoid division by zero
+  document.getElementById('finalScore').textContent = normalizedScore.toFixed(2);
+  }
+
+
+  function redistributeWeights(changedInputId, changedValue) {
+  const weightInputs = document.querySelectorAll('input[type="range"]');
+  let totalWeight = 0;
+  let remainingWeight = 1 - changedValue; // Calculate remaining weight after change
+
+  weightInputs.forEach(input => {
+    if (input.id !== changedInputId) {
+      totalWeight += parseFloat(input.value); // Sum of other weights
+    }
+  });
+
+  if (totalWeight === 0) {
+    // Avoid division by zero, distribute equally
+    const distributeEvenly = remainingWeight / (weightInputs.length - 1);
+    weightInputs.forEach(input => {
+      if (input.id !== changedInputId) {
+        input.value = distributeEvenly.toFixed(2);
+        document.getElementById('display-' + input.id).textContent = 'Weight: ' + distributeEvenly.toFixed(2);
+      }
+    });
+  } else {
+    const scaleFactor = remainingWeight / totalWeight; // Calculate scale factor
+    weightInputs.forEach(input => {
+      if (input.id !== changedInputId) {
+        const newValue = (parseFloat(input.value) * scaleFactor).toFixed(2);
+        input.value = newValue; // Scale other weights
+        document.getElementById('display-' + input.id).textContent = 'Weight: ' + newValue;
+      }
+    });
+  }
+  }
+
+  // Attach event listeners to all weight inputs
+  document.querySelectorAll('input[type="range"]').forEach(input => {
+  input.addEventListener('input', function() {
+    const weightDisplayId = 'display-' + this.id;
+    const newValue = parseFloat(this.value).toFixed(2);
+    document.getElementById(weightDisplayId).textContent = 'Weight: ' + newValue; // Update the display text
+
+    redistributeWeights(this.id, parseFloat(newValue)); // Redistribute weights
+  });
+  });
+
+  function resetWeights() {
+  // Reset dropdowns to their original option for both Traditional and AI modes
+  const dropdownIds = [
+    'source',
+    'engagement',
+    'timeOnPage',
+    'actionsCompleted',
+    'customerFeedback',
+    'salesReadiness'
+  ];
+
+  dropdownIds.forEach(id => {
+    const dropdown = document.getElementById(id);
+    dropdown.selectedIndex = 0; // Resets to the first option
+  });
+
+  // Check if the current mode is Traditional before resetting weights
+  if (mode === 'traditional') {
+    // Set all weights to 1/6 for Traditional mode
+    const equalWeight = (1 / 6).toFixed(4); // Equals approximately 0.1667
+    const weightIds = [
+      'weight-source', 
+      'weight-engagement', 
+      'weight-timeOnPage', 
+      'weight-actionsCompleted', 
+      'weight-customerFeedback', 
+      'weight-salesReadiness'
+    ];
+
+    weightIds.forEach(id => {
+      const slider = document.getElementById(id);
+      const display = document.getElementById('display-' + id);
+      slider.value = equalWeight;
+      display.textContent = 'Weight: ' + equalWeight;
+    });
+  }
+
+  // Clear the score display
+  document.getElementById('finalScore').textContent = '';
+  }
+
+  function createRaindrop() {
+    const raindrop = document.createElement('div');
+    raindrop.textContent = 'breuz'; // Use 'textContent' for plain text
+    raindrop.style.left = Math.random() * 100 + 'vw';
+    raindrop.style.animationDuration = Math.random() * 3 + 4 + 's'; // Between 4 and 7 seconds
+    raindrop.classList.add('raindrop');
+    document.body.appendChild(raindrop);
+
+    // Remove raindrop after it falls to prevent DOM overload
+    setTimeout(() => {
+      raindrop.remove();
+    }, 7000); // Match longest possible animation duration
+  }
+  // Create a new raindrop every 300 milliseconds
+  // setInterval(createRaindrop, 50); 
+
+  updateSlidersVisibility();
+  updateModeText();
+</script>
 </body>
 </html>
