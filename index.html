@@ -16,7 +16,7 @@
     height: 100vh;
   }
   .widget {
-    background: linear-gradient(to bottom, #ffffff, #f6f8fa);
+    background: linear-gradient(to top, #ffffff, #f5f5f5);
     padding: 10px 10px 0px 10px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -36,21 +36,14 @@
     justify-content: flex-start;
     gap: 5px;
   }
-  h2 {
-    font-family: "roboto", sans-serif;
-    color: #20262e;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100%;
-  }
   #score {
     color: #333;
-    font-size: 20px;
+    font-size: 25px;
     margin-top: 20px;
-    padding-top: 10px;
+    padding-top: 5px;
     border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
     text-align: center;
     width: 100%;
   }
@@ -58,8 +51,8 @@
     display: block;
     margin-bottom: 5px;
     font-size: 15px;
-    margin-top: 3px;
-    color: #666;
+    margin-top: 15px;
+    color: #3b3c36;
   }
   select, input[type="range"] {
     width: 100%;
@@ -69,11 +62,13 @@
     border: 1px solid #ddd;
     background-color: #fff;
   }
+
   .weight-value {
     font-size: 10px;
-    color: #888;
+  /*    color: #888;*/
+    color: #92000a;
     text-align: center;
-    margin-top: 0px;
+    margin-top: -5px;
   }
   .optimized-weight {
     font-size: 10px;
@@ -91,17 +86,18 @@
     width: 100%;
     background-image: linear-gradient(to bottom, #007bff, #0056b3);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, box-shadow 0.3s;
+    transition: background-color 0.3s, transform 0.1s;
   }
   button:hover {
     background-image: linear-gradient(to bottom, #0056b3, #0042a1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
+
   .column input[type="range"] {
-    padding-left: 10px; /* Adjust as needed */
-    padding-right: 20px; /* Adjust as needed */
-    width: calc(100% - 40px); /* Adjust based on padding to maintain overall width */
+    padding-left: 0px; /* Adjust as needed */
+    padding-right: 0px; /* Adjust as needed */
   }
+
   .button-container {
   display: flex;
   width: 100%;
@@ -141,6 +137,7 @@
   
   select, input[type="range"], button {
   font-size: 16px; /* Adjust based on preference */
+  margin-top: 0px;
   }
 
   button:active {
