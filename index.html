@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LS Widget</title>
+<title>Lead Scoring Widget</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -386,6 +386,52 @@
   }
   // Create a new raindrop every 300 milliseconds
   // setInterval(createRaindrop, 300); 
+
+  let lastManualWeights = {}; // Object to store the last manually set weights
+
+function updateWeightsForMode() {
+  if (mode === 'ai') {
+    // Save current manual weights before switching to AI
+    saveCurrentWeights();
+    // Set AI-optimized weights
+    setAIWeights();
+  } else {
+    // Restore saved manual weights when switching back to manual mode
+    restoreManualWeights();
+  }
+  updateSlidersVisibility();
+}
+
+function saveCurrentWeights() {
+  const weightIds = ['source', 'engagement', 'timeOnPage', 'actionsCompleted', 'customerFeedback', 'salesReadiness'];
+  weightIds.forEach(id => {
+    lastManualWeights[id] = document.getElementById('weight-' + id).value;
+  });
+}
+
+function setAIWeights() {
+  // AI-optimized weights, these values should be set according to your AI model or preset values
+  const aiWeights = {
+    source: '0.05',
+    engagement: '0.15',
+    timeOnPage: '0.5',
+    actionsCompleted: '0.05',
+    customerFeedback: '0.05',
+    salesReadiness: '0.2'
+  };
+  for (const id in aiWeights) {
+    document.getElementById('weight-' + id).value = aiWeights[id];
+    document.getElementById(`display-weight-${id}`).textContent = `Weight: ${aiWeights[id]}`;
+  }
+}
+
+function restoreManualWeights() {
+  for (const id in lastManualWeights) {
+    document.getElementById('weight-' + id).value = lastManualWeights[id];
+    document.getElementById(`display-weight-${id}`).textContent = `Weight: ${lastManualWeights[id]}`;
+  }
+}
+
 
   updateSlidersVisibility();
   updateModeText();
