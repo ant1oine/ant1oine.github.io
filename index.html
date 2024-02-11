@@ -149,11 +149,50 @@
         animation: scanningEffect 2s ease-out; /* Adjusted for immediate follow-up */
         position: relative; /* Ensure box-shadow is properly applied */
       }
+
+      #button-container button {
+        padding: 15px 25px; /* Ensure both buttons have the same padding */
+        font-size: 1em; /* Ensure both buttons use the same font size */
+        border-radius: 5px;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: background-color 0.3s, transform 0.3s;
+        cursor: pointer;
+        min-width: 48px;
+        min-height: 48px;
+        max-width: 200px; /* Optional: Adjust if needed */
+      }
+
+      #reset-button {
+        background-image: linear-gradient(to bottom, #ec1d2f, #a90310);
+        color: white;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 7.5px 12.5px; /* Adjusted for half size */
+        font-size: 0.8em;
+        border-radius: 5px;
+        cursor: not-allowed; /* Initially not clickable */
+        opacity: 0.5; /* Visually indicate it's disabled */
+        transition: background-color 0.3s, transform 0.3s, opacity 0.3s;
+      }
+
+      #reset-button.enabled {
+        cursor: pointer;
+        opacity: 1; /* Full opacity when enabled */
+      }
+
+      #reset-button:hover.enabled {
+        background-image: linear-gradient(to bottom, #f22, rgb(67, 2, 2));
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
     </style>
   </head>
   <body>
     <div id="container">
-      <button id="start-button">Start AI Evaluation</button>
+      <div id="button-container">
+        <button id="start-button">Start Evaluation</button>
+        <button id="reset-button" disabled>Reset</button>
+      </div>
       <div id="message">Initializing AI Model...</div>
       <div id="animation-container"></div>
       <div id="risk-count">-</div>
@@ -164,27 +203,31 @@
         "First Batch Complete...",
         "Second Batch Complete...",
         "Third Batch Complete...",
-        "Fourth Batch Complete..."
+        "Fourth Batch Complete...",
       ];
 
       function generateCustomers() {
         const container = document.getElementById("animation-container");
+        container.innerHTML = ""; // Clear existing customers before generating new
         for (let i = 0; i < 20; i++) {
           const customer = document.createElement("div");
           customer.className = "customer";
-          customer.textContent = "Customer"; // Removed the dynamic numbering
+          customer.textContent = "Customer " + (i + 1);
           container.appendChild(customer);
         }
       }
 
       function evaluateCustomers() {
+        document.getElementById("reset-button").disabled = true; // Disable reset button during evaluation
+        document.getElementById("reset-button").classList.remove("enabled"); // Remove enabled class for visual cue
+
         const customers = document.querySelectorAll(".customer");
         const messageDiv = document.getElementById("message");
         let messageIndex = 0;
         const intervalTime = 4000 / messages.length;
         let riskCount = 0;
         let mediumRiskCount = 0;
-        let lowRiskCount = 0; // Initialize low risk count
+        let lowRiskCount = 0;
 
         const messageInterval = setInterval(() => {
           if (messageIndex < messages.length) {
@@ -192,47 +235,59 @@
           } else {
             clearInterval(messageInterval);
             messageDiv.textContent = "Risk Assessment Complete.";
+            document.getElementById("reset-button").disabled = false; // Enable reset button after evaluation
+            document.getElementById("reset-button").classList.add("enabled"); // Add enabled class for visual cue
           }
         }, intervalTime);
 
         customers.forEach((customer, index) => {
           setTimeout(() => {
-            customer.classList.add("scanning"); // Start scanning effect
+            customer.classList.add("scanning");
             const randomRisk = Math.random();
             setTimeout(() => {
-              // Delay to show scanning before classifying
-              customer.classList.remove("scanning"); // End scanning effect
+              customer.classList.remove("scanning");
               if (randomRisk <= 0.1 && riskCount < customers.length * 0.1) {
-                customer.classList.add("high-risk"); // Apply high risk class
+                customer.classList.add("high-risk");
                 riskCount++;
               } else if (
                 randomRisk <= 0.3 &&
                 mediumRiskCount < customers.length * 0.2
               ) {
-                customer.classList.add("medium-risk"); // Apply medium risk class
+                customer.classList.add("medium-risk");
                 mediumRiskCount++;
               } else {
-                customer.classList.add("low-risk"); // Apply low risk class
+                customer.classList.add("low-risk");
                 lowRiskCount++;
               }
-              // Update counts
               document.getElementById(
                 "risk-count"
               ).textContent = `High Risk: ${riskCount} | Medium Risk: ${mediumRiskCount} | Low Risk: ${lowRiskCount}`;
-            }, 280); // Adjust delay based on scanning animation duration
+            }, 280);
           }, index * 250);
         });
+      }
 
-        document
-          .getElementById("start-button")
-          .removeEventListener("click", evaluateCustomers);
+      function resetAnimation() {
+        generateCustomers(); // Regenerate the customer elements
+        document.getElementById("message").textContent =
+          "Initializing AI Model..."; // Reset the message
+        document.getElementById("risk-count").textContent = "-"; // Reset the risk count
+        document.getElementById("reset-button").disabled = true; // Disable reset button until next evaluation
+        document.getElementById("reset-button").classList.remove("enabled"); // Ensure it visually indicates as disabled
       }
 
       document
         .getElementById("start-button")
         .addEventListener("click", evaluateCustomers);
-      generateCustomers();
+      document
+        .getElementById("reset-button")
+        .addEventListener("click", function () {
+          if (!this.disabled) {
+            resetAnimation();
+          }
+        });
+
+      generateCustomers(); // Initial generation of customers
     </script>
   </body>
 </html>
-    
