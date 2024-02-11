@@ -140,8 +140,8 @@
         100% {
           box-shadow: 0 0 0px 0px transparent;
         }
-        50% {
-          box-shadow: 0 0 0px 10px rgb(12, 12, 12); /* Black for scanning effect */
+        20% {
+          box-shadow: 0 0 0px 7px rgb(27, 1, 44); /* Black for scanning effect */
         }
       }
 
@@ -163,6 +163,13 @@
         max-width: 200px; /* Optional: Adjust if needed */
       }
 
+      #start-button.disabled,
+#reset-button.disabled {
+  background-image: linear-gradient(to bottom, #888, #666);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
       #reset-button {
         background-image: linear-gradient(to bottom, #ec1d2f, #a90310);
         color: white;
@@ -176,15 +183,17 @@
         transition: background-color 0.3s, transform 0.3s, opacity 0.3s;
       }
 
-      #reset-button.enabled {
-        cursor: pointer;
-        opacity: 1; /* Full opacity when enabled */
-      }
+    /* Ensure the enabled class is specifically for the reset button and has higher specificity */
+#reset-button:not(:disabled) {
+  background-image: linear-gradient(to bottom, #ec1d2f, #a90310);
+  cursor: pointer;
+  opacity: 1;
+}
 
-      #reset-button:hover.enabled {
-        background-image: linear-gradient(to bottom, #f22, rgb(67, 2, 2));
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
+#reset-button:not(:disabled):hover {
+  background-image: linear-gradient(to bottom, rgb(177, 12, 12), rgb(68, 3, 3));
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
     </style>
   </head>
   <body>
@@ -218,13 +227,17 @@
       }
 
       function evaluateCustomers() {
-        document.getElementById("reset-button").disabled = true; // Disable reset button during evaluation
-        document.getElementById("reset-button").classList.remove("enabled"); // Remove enabled class for visual cue
+        const startButton = document.getElementById("start-button");
+        const resetButton = document.getElementById("reset-button");
+        startButton.disabled = true; // Disable start button immediately to prevent re-clicks
+        resetButton.disabled = true; // Disable reset button during evaluation
+        startButton.classList.add("disabled"); // Add disabled class to visually indicate
+        resetButton.classList.add("disabled"); // Add disabled class to visually indicate
 
         const customers = document.querySelectorAll(".customer");
         const messageDiv = document.getElementById("message");
         let messageIndex = 0;
-        const intervalTime = 4000 / messages.length;
+        const intervalTime = 7000 / messages.length;
         let riskCount = 0;
         let mediumRiskCount = 0;
         let lowRiskCount = 0;
@@ -236,7 +249,10 @@
             clearInterval(messageInterval);
             messageDiv.textContent = "Risk Assessment Complete.";
             document.getElementById("reset-button").disabled = false; // Enable reset button after evaluation
-            document.getElementById("reset-button").classList.add("enabled"); // Add enabled class for visual cue
+            document
+              .getElementById("reset-button")
+              .classList.remove("disabled");
+            document.getElementById("start-button").disabled = true;
           }
         }, intervalTime);
 
@@ -262,18 +278,23 @@
               document.getElementById(
                 "risk-count"
               ).textContent = `High Risk: ${riskCount} | Medium Risk: ${mediumRiskCount} | Low Risk: ${lowRiskCount}`;
-            }, 280);
-          }, index * 250);
+            }, 350);
+          }, index * 450); //250
         });
       }
 
       function resetAnimation() {
-        generateCustomers(); // Regenerate the customer elements
+        generateCustomers();
         document.getElementById("message").textContent =
-          "Initializing AI Model..."; // Reset the message
-        document.getElementById("risk-count").textContent = "-"; // Reset the risk count
-        document.getElementById("reset-button").disabled = true; // Disable reset button until next evaluation
-        document.getElementById("reset-button").classList.remove("enabled"); // Ensure it visually indicates as disabled
+          "Initializing AI Model...";
+        document.getElementById("risk-count").textContent = "-";
+
+        const startButton = document.getElementById("start-button");
+        const resetButton = document.getElementById("reset-button");
+        startButton.disabled = false; // Re-enable start button for new evaluation
+        resetButton.disabled = true; // Keep reset button disabled
+        startButton.classList.remove("disabled"); // Remove disabled class
+        resetButton.classList.add("disabled"); // Ensure reset button looks enabled (will remain disabled)
       }
 
       document
@@ -281,11 +302,7 @@
         .addEventListener("click", evaluateCustomers);
       document
         .getElementById("reset-button")
-        .addEventListener("click", function () {
-          if (!this.disabled) {
-            resetAnimation();
-          }
-        });
+        .addEventListener("click", resetAnimation);
 
       generateCustomers(); // Initial generation of customers
     </script>
