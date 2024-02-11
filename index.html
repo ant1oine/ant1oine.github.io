@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>AI Model Flight Risk Identification</title>
-<style>
-    body, html {
+    <style>
+      body,
+      html {
         margin: 0;
         font-size: 16px;
         padding: 0;
@@ -11,9 +12,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #ecf0f1; /* Background color for the entire page */
-    }
-    #container {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #080808;
+      }
+      #container {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -21,13 +23,14 @@
         align-items: center;
         border: 2px solid #000;
         padding: 20px;
-        background-color: #f0f0f0;
+        background-image: linear-gradient(to right, #c7cbd0, #d5d8df);
         border-radius: 10px;
         width: auto; /* Adjusted for responsive width */
         max-width: 80%; /* Maximum width of the container */
         margin: 2vh auto; /* Vertical margin based on viewport height */
-    }
-    #animation-container {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      #animation-container {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -35,16 +38,20 @@
         align-content: start;
         width: 100%;
         margin: 20px 0;
+      }
 
-    }
-    .customer {
+      .customer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
         flex: 0 0 19%;
-        background-color: #28a745;
+        background-color: #e9ecef;
         border-radius: 5px;
         margin: 4px;
         padding: 12px;
-        font-size: 1.2em;
-        color: white;
+        font-size: 1.5em;
+        color: #0e0f0f;
         text-align: center;
         line-height: 30px;
         transition: background-color 2s;
@@ -52,16 +59,31 @@
         min-width: 48px;
         min-height: 48px;
         max-width: 19%; /* Maximum width for customer boxes */
-    }
-    #message, #risk-count {
+      }
+
+      .customer.low-risk {
+        background-color: #70b770; /* Light green for low risk */
+      }
+
+      .customer.medium-risk {
+        background-color: #dabc93; /* Orange for medium risk */
+      }
+
+      .customer.high-risk {
+        background-color: #d3776f; /* Lighter red for high risk */
+      }
+
+      #message,
+      #risk-count {
         text-align: center;
         font-size: 25px;
         margin-top: 20px;
-    }
-    #start-button {
-        background-color: #007bff;
+      }
+      #start-button {
+        background-image: linear-gradient(to bottom, #007bff, #033a75);
         color: white;
-        border: none;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         padding: 15px 25px;
         font-size: 1em;
         border-radius: 5px;
@@ -71,106 +93,146 @@
         min-width: 48px;
         min-height: 48px;
         max-width: 200px; /* Maximum width for the button */
-    }
-    #start-button:hover {
-        background-color: #0056b3;
-    }
-    #start-button:active {
+      }
+      #start-button:hover {
+        background-image: linear-gradient(to bottom, #054a93, #020f1d);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth on hover */
+      }
+      #start-button:active {
         transform: scale(0.98);
-    }
-    @media (max-width: 600px) {
+      }
+      @media (max-width: 600px) {
         .customer {
-            flex-basis: calc(50% - 8px);
-            max-width: 45%; /* Maximum width for mobile */
-            padding: 16px;
+          flex-basis: calc(50% - 8px);
+          max-width: 45%; /* Maximum width for mobile */
+          padding: 16px;
         }
         #start-button {
-            width: 80%; /* Relative width for the button on mobile */
+          width: 80%; /* Relative width for the button on mobile */
         }
-    }
-    /* Media query for smaller devices */
-    @media (max-width: 768px) {
-    body,html{
-      font-size: 18px;
-    }
-    .customer {
-        flex: 0 0 48%; /* Two customers per row on smaller screens */
-        max-width: 48%;
-    }
-    }
+      }
+      /* Media query for smaller devices */
+      @media (max-width: 768px) {
+        body,
+        html {
+          font-size: 18px;
+        }
+        .customer {
+          flex: 0 0 48%; /* Two customers per row on smaller screens */
+          max-width: 48%;
+        }
+      }
 
-    @media (max-width: 480px) {
-    .customer {
-        flex: 0 0 98%; /* Full width for very small screens */
-        max-width: 98%;
-        margin: 1% 0; /* Adjust margin for small screens */
-    }
+      @media (max-width: 480px) {
+        .customer {
+          flex: 0 0 98%; /* Full width for very small screens */
+          max-width: 98%;
+          margin: 1% 0; /* Adjust margin for small screens */
+        }
 
-    #start-button {
-        width: 100%; /* Full width button on small screens */
-    }
-    }
-</style>
+        #start-button {
+          width: 100%; /* Full width button on small screens */
+        }
+      }
 
-</head>
-<body>
+      @keyframes scanningEffect {
+        0%,
+        100% {
+          box-shadow: 0 0 0px 0px transparent;
+        }
+        50% {
+          box-shadow: 0 0 0px 10px rgb(12, 12, 12); /* Black for scanning effect */
+        }
+      }
+
+      .scanning {
+        animation: scanningEffect 2s ease-out; /* Adjusted for immediate follow-up */
+        position: relative; /* Ensure box-shadow is properly applied */
+      }
+    </style>
+  </head>
+  <body>
     <div id="container">
-        <button id="start-button">Start AI Evaluation</button>
-        <div id="message">Initializing AI Model...</div>
-        <div id="animation-container"></div>
-        <div id="risk-count">Flight Risk Customers Identified: 0</div>
+      <button id="start-button">Start AI Evaluation</button>
+      <div id="message">Initializing AI Model...</div>
+      <div id="animation-container"></div>
+      <div id="risk-count">-</div>
     </div>
 
     <script>
-        const messages = [
-            "Analyzing customer interaction history...",
-            "Evaluating customer service usage patterns...",
-            "Assessing customer social media sentiment...",
-            "Tailoring customer engagement strategies..."
-        ];
+      const messages = [
+        "First Batch Complete...",
+        "Second Batch Complete...",
+        "Third Batch Complete...",
+        "Fourth Batch Complete..."
+      ];
 
-        function generateCustomers() {
-    const container = document.getElementById('animation-container');
-    for (let i = 0; i < 20; i++) {
-        const customer = document.createElement('div');
-        customer.className = 'customer';
-        customer.textContent = 'Customer'; // Removed the dynamic numbering
-        container.appendChild(customer);
-    }
-}
-
-        function evaluateCustomers() {
-            const customers = document.querySelectorAll('.customer');
-            const messageDiv = document.getElementById('message');
-            let messageIndex = 0;
-            const intervalTime = 5000 / messages.length; // Time interval for messages
-            let riskCount = 0; // Initialize risk count
-            
-            const messageInterval = setInterval(() => {
-                if (messageIndex < messages.length) {
-                    messageDiv.textContent = messages[messageIndex++];
-                } else {
-                    clearInterval(messageInterval);
-                    messageDiv.textContent = "AI evaluation complete. Flight-risk customers identified.";
-                }
-            }, intervalTime);
-
-            customers.forEach((customer, index) => {
-                setTimeout(() => {
-                    // Random selection with 10-20% probability
-                    if (Math.random() <= 0.2 && riskCount < customers.length * 0.2) {
-                        customer.style.backgroundColor = '#dc3545'; // Turn to red
-                        riskCount++; // Increment risk count
-                        document.getElementById('risk-count').textContent = `Flight Risk Customers Identified: ${riskCount}`;
-                    }
-                }, index * 250); // Customer evaluation timing
-            });
-            
-            document.getElementById('start-button').removeEventListener('click', evaluateCustomers);
+      function generateCustomers() {
+        const container = document.getElementById("animation-container");
+        for (let i = 0; i < 20; i++) {
+          const customer = document.createElement("div");
+          customer.className = "customer";
+          customer.textContent = "Customer"; // Removed the dynamic numbering
+          container.appendChild(customer);
         }
+      }
 
-        document.getElementById('start-button').addEventListener('click', evaluateCustomers);
-        generateCustomers();
+      function evaluateCustomers() {
+        const customers = document.querySelectorAll(".customer");
+        const messageDiv = document.getElementById("message");
+        let messageIndex = 0;
+        const intervalTime = 4000 / messages.length;
+        let riskCount = 0;
+        let mediumRiskCount = 0;
+        let lowRiskCount = 0; // Initialize low risk count
+
+        const messageInterval = setInterval(() => {
+          if (messageIndex < messages.length) {
+            messageDiv.textContent = messages[messageIndex++];
+          } else {
+            clearInterval(messageInterval);
+            messageDiv.textContent = "Risk Assessment Complete.";
+          }
+        }, intervalTime);
+
+        customers.forEach((customer, index) => {
+          setTimeout(() => {
+            customer.classList.add("scanning"); // Start scanning effect
+            const randomRisk = Math.random();
+            setTimeout(() => {
+              // Delay to show scanning before classifying
+              customer.classList.remove("scanning"); // End scanning effect
+              if (randomRisk <= 0.1 && riskCount < customers.length * 0.1) {
+                customer.classList.add("high-risk"); // Apply high risk class
+                riskCount++;
+              } else if (
+                randomRisk <= 0.3 &&
+                mediumRiskCount < customers.length * 0.2
+              ) {
+                customer.classList.add("medium-risk"); // Apply medium risk class
+                mediumRiskCount++;
+              } else {
+                customer.classList.add("low-risk"); // Apply low risk class
+                lowRiskCount++;
+              }
+              // Update counts
+              document.getElementById(
+                "risk-count"
+              ).textContent = `High Risk: ${riskCount} | Medium Risk: ${mediumRiskCount} | Low Risk: ${lowRiskCount}`;
+            }, 280); // Adjust delay based on scanning animation duration
+          }, index * 250);
+        });
+
+        document
+          .getElementById("start-button")
+          .removeEventListener("click", evaluateCustomers);
+      }
+
+      document
+        .getElementById("start-button")
+        .addEventListener("click", evaluateCustomers);
+      generateCustomers();
     </script>
-</body>
+  </body>
 </html>
+    
