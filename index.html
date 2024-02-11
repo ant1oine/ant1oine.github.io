@@ -1,85 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conversion Rate Change Animation</title>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.4/dist/tailwind.min.css" rel="stylesheet">
+    <title>AI Model Flight Risk Identification</title>
 <style>
-  .pyramid-segment {
-    transition: transform 2s ease, opacity 2s ease;
-  }
-  .conversion-rate {
-    font-weight: normal;
-    transition: font-weight 2s ease;
-  }
-  .ai-model {
-    opacity: 0; /* Start invisible */
-    transition: opacity 2s ease; /* Smooth transition for opacity */
-    background-color: #ea580c; /* Dark orange */
-    color: white;
-    margin-top: 20px; /* Increased space between Target and AI Model */
-    padding: 10px;
-    border-radius: 5px;
-    transition: opacity 2s ease, background-color 2s ease; /* Smooth transition for background */
-  }
-  .bold {
-    font-weight: bold;
-  }
-</style>
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-
-<div class="pyramid-segment bg-white p-5 text-center shadow-md rounded-md">
-  <div class="conversion-rate">20% Conversion</div>
-  <div class="mt-4">Target</div>
-  <div id="aiModelContainer"></div> <!-- Placeholder for AI Model -->
-  <div class="mt-4">Get Leads</div>
-  <div class="mt-4 mb-4">Running Ads</div>
-</div>
-
-<script>
-function startAnimation() {
-  const conversionDiv = document.querySelector('.conversion-rate');
-  conversionDiv.classList.remove('bold'); // Ensure font weight is normal at start
-  conversionDiv.textContent = '20% Conversion'; // Reset conversion rate to 20%
-  
-  const aiModelContainer = document.getElementById('aiModelContainer');
-  aiModelContainer.innerHTML = ''; // Reset AI Model
-  
-  // Insert AI model block
-  setTimeout(() => {
-    const aiModelDiv = document.createElement('div');
-    aiModelDiv.classList.add('ai-model');
-    aiModelDiv.textContent = 'AI Model';
-    aiModelContainer.appendChild(aiModelDiv);
-
-    // Smoothly reveal the AI model block
-    aiModelDiv.style.opacity = 1;
-
-    // Start increasing the conversion rate number 2 seconds after the AI model is introduced
-    setTimeout(() => {
-      let conversionRate = 20;
-      const interval = setInterval(() => {
-        if(conversionRate < 60) {
-          conversionRate++;
-          conversionDiv.textContent = conversionRate + '% Conversion';
-        } else {
-          clearInterval(interval);
-          conversionDiv.classList.add('bold'); // Make text bold when it reaches 60%
-          // Wait 3 seconds and restart the animation
-          setTimeout(() => {
-            startAnimation(); // Restart animation
-          }, 3000);
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ecf0f1; /* Background color for the entire page */
+    }
+    #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 2px solid #000;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        width: auto; /* Adjusted for responsive width */
+        max-width: 70%; /* Maximum width of the container */
+        margin: 2vh auto; /* Vertical margin based on viewport height */
+    }
+    #animation-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    .customer {
+        background-color: #28a745;
+        border-radius: 5px;
+        margin: 5px;
+        color: white;
+        text-align: center;
+        line-height: 30px;
+        transition: background-color 2s;
+        flex-basis: 18%; /* Flex basis for customer boxes */
+        max-width: 18%; /* Maximum width for customer boxes */
+    }
+    #message, #risk-count {
+        text-align: center;
+        margin-top: 20px;
+    }
+    #start-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        margin: 10px 0;
+        width: 50%; /* Set a relative width for the button */
+        max-width: 200px; /* Maximum width for the button */
+    }
+    #start-button:hover {
+        background-color: #0056b3;
+    }
+    #start-button:active {
+        transform: scale(0.98);
+    }
+    @media (max-width: 600px) {
+        .customer {
+            flex-basis: 45%; /* Larger size for mobile */
+            max-width: 45%; /* Maximum width for mobile */
         }
-      }, 35); // Adjust the interval speed as necessary
-    }, 1000);
-  }, 2000); // Insert AI model block and start transition 2 seconds after page load
+        #start-button {
+            width: 80%; /* Relative width for the button on mobile */
+        }
+    }
+</style>
+
+</head>
+<body>
+    <div id="container">
+        <button id="start-button">Start AI Evaluation</button>
+        <div id="message">Initializing AI Model...</div>
+        <div id="animation-container"></div>
+        <div id="risk-count">Flight Risk Customers Identified: 0</div>
+    </div>
+
+    <script>
+        const messages = [
+            "Analyzing customer interaction history...",
+            "Evaluating customer service usage patterns...",
+            "Assessing customer social media sentiment...",
+            "Tailoring customer engagement strategies..."
+        ];
+
+        function generateCustomers() {
+    const container = document.getElementById('animation-container');
+    for (let i = 0; i < 20; i++) {
+        const customer = document.createElement('div');
+        customer.className = 'customer';
+        customer.textContent = 'Customer'; // Removed the dynamic numbering
+        container.appendChild(customer);
+    }
 }
 
-// Initial animation start
-startAnimation();
-</script>
+        function evaluateCustomers() {
+            const customers = document.querySelectorAll('.customer');
+            const messageDiv = document.getElementById('message');
+            let messageIndex = 0;
+            const intervalTime = 5000 / messages.length; // Time interval for messages
+            let riskCount = 0; // Initialize risk count
+            
+            const messageInterval = setInterval(() => {
+                if (messageIndex < messages.length) {
+                    messageDiv.textContent = messages[messageIndex++];
+                } else {
+                    clearInterval(messageInterval);
+                    messageDiv.textContent = "AI evaluation complete. Flight-risk customers identified.";
+                }
+            }, intervalTime);
 
+            customers.forEach((customer, index) => {
+                setTimeout(() => {
+                    // Random selection with 10-20% probability
+                    if (Math.random() <= 0.2 && riskCount < customers.length * 0.2) {
+                        customer.style.backgroundColor = '#dc3545'; // Turn to red
+                        riskCount++; // Increment risk count
+                        document.getElementById('risk-count').textContent = `Flight Risk Customers Identified: ${riskCount}`;
+                    }
+                }, index * 250); // Customer evaluation timing
+            });
+            
+            document.getElementById('start-button').removeEventListener('click', evaluateCustomers);
+        }
+
+        document.getElementById('start-button').addEventListener('click', evaluateCustomers);
+        generateCustomers();
+    </script>
 </body>
 </html>
