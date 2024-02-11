@@ -5,6 +5,7 @@
 <style>
     body, html {
         margin: 0;
+        font-size: 16px;
         padding: 0;
         height: 100%;
         display: flex;
@@ -15,47 +16,60 @@
     #container {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        text-align: center;
         align-items: center;
         border: 2px solid #000;
         padding: 20px;
         background-color: #f0f0f0;
         border-radius: 10px;
         width: auto; /* Adjusted for responsive width */
-        max-width: 70%; /* Maximum width of the container */
+        max-width: 80%; /* Maximum width of the container */
         margin: 2vh auto; /* Vertical margin based on viewport height */
     }
     #animation-container {
         display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
+        align-content: start;
+        width: 100%;
         margin: 20px 0;
+
     }
     .customer {
+        flex: 0 0 19%;
         background-color: #28a745;
         border-radius: 5px;
-        margin: 5px;
+        margin: 4px;
+        padding: 12px;
+        font-size: 1.5em;
         color: white;
         text-align: center;
         line-height: 30px;
         transition: background-color 2s;
         flex-basis: 18%; /* Flex basis for customer boxes */
-        max-width: 18%; /* Maximum width for customer boxes */
+        min-width: 48px;
+        min-height: 48px;
+        max-width: 19%; /* Maximum width for customer boxes */
     }
     #message, #risk-count {
         text-align: center;
+        font-size: 25px;
         margin-top: 20px;
     }
     #start-button {
         background-color: #007bff;
         color: white;
         border: none;
-        padding: 10px 20px;
-        font-size: 16px;
+        padding: 15px 25px;
+        font-size: 1em;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s, transform 0.3s;
         margin: 10px 0;
-        width: 50%; /* Set a relative width for the button */
+        min-width: 48px;
+        min-height: 48px;
         max-width: 200px; /* Maximum width for the button */
     }
     #start-button:hover {
@@ -66,12 +80,35 @@
     }
     @media (max-width: 600px) {
         .customer {
-            flex-basis: 45%; /* Larger size for mobile */
+            flex-basis: calc(50% - 8px);
             max-width: 45%; /* Maximum width for mobile */
+            padding: 16px;
         }
         #start-button {
             width: 80%; /* Relative width for the button on mobile */
         }
+    }
+    /* Media query for smaller devices */
+    @media (max-width: 768px) {
+    body,html{
+      font-size: 18px;
+    }
+    .customer {
+        flex: 0 0 48%; /* Two customers per row on smaller screens */
+        max-width: 48%;
+    }
+    }
+
+    @media (max-width: 480px) {
+    .customer {
+        flex: 0 0 98%; /* Full width for very small screens */
+        max-width: 98%;
+        margin: 1% 0; /* Adjust margin for small screens */
+    }
+
+    #start-button {
+        width: 100%; /* Full width button on small screens */
+    }
     }
 </style>
 
